@@ -4,6 +4,9 @@ QuantCoder is a  tool designed to streamline the process of searching for resear
 
 For an explanation of the code, refer to article : https://medium.com/ai-advances/from-finance-papers-to-trading-algorithms-an-automated-approach-ccd2180ee306?sk=c1e67131cd822bccc1acab1b53ae5331
 
+This code is now integrated as coding engine in the project QuantCoder_FS, expected to be released Q2 2025. Refer to aricle : https://medium.com/ai-advances/towards-automating-quantitative-finance-research-c868a2a6477e
+Screenshots of the development are visible in a dedicated folder QuantCoder_FS_Demo. 
+
 ## Features
 
 - **Search Articles**: Query the CrossRef API to find relevant journal articles.
