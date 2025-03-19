@@ -44,6 +44,8 @@ QuantCoder v0.3 has been integrated as a coding engine in the full-stack version
 
 These workflows are designed to evolve continuously, improving with advancements in LLMs and cognitive frameworks. For transparency and collaboration, these workflows will be demonstrated as Jupyter notebooks in this repository and in relevant Medium articles.
 
+For more details on the evolution of QuantCoder, see the article ["Towards Automating Quantitative Finance Research"](https://medium.com/ai-advances/towards-automating-quantitative-finance-research-c868a2a6477e), published on AI Advances.
+
 ## License
 
 The material contained this repo is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
