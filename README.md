@@ -31,7 +31,7 @@ To launch the interactive mode of **QuantCLI**, follow these steps:
 
 ### Strategies 
 
-A folder in this repository contains trading strategies generated using the QuantCoder tool. These strategies may have been refined manually or enhanced using other LLM-based methods. Please note that the author assumes no responsibility for the performance, accuracy, or outcomes resulting from the use of these strategies. Traders are strongly advised to exercise due diligence, conduct thorough research, and independently validate any strategy before applying it in live trading or investment activities.
+A folder in this repository contains trading strategies generated using the QuantCoder tool. These strategies may have been refined manually or enhanced using other LLM-based methods. Please note that the author assumes no responsibility for the performance, accuracy, or outcomes resulting from the use of these strategies. Traders are strongly advised to exercise due diligence, conduct thorough research, and independently validate any strategy before applying it in live trading or investment activities. Quantitative finance articles studied using QuantCoder are stored in the 'Downloads' folder. These articles may be featured in a dedicated article on Medium, providing further insights and analysis.
 
 ## Full-stack application : QuantCoder_FS 
 
@@ -45,6 +45,10 @@ QuantCoder v0.3 has been integrated as a coding engine in the full-stack version
 These workflows are designed to evolve continuously, improving with advancements in LLMs and cognitive frameworks. For transparency and collaboration, these workflows will be demonstrated as Jupyter notebooks in this repository and in relevant Medium articles.
 
 For more details on the evolution of QuantCoder, see the article ["Towards Automating Quantitative Finance Research"](https://medium.com/ai-advances/towards-automating-quantitative-finance-research-c868a2a6477e), published on AI Advances.
+
+## Project Status
+
+As a part-time independent developer working outside of academic or financial institutions, progress is incremental. Currently, my primary source of funding comes from the alpha I generate through market activities. My greatest reward is the community's recognition and the positive feedback I receive, including from the QuantConnect community, reflected in the number of stars this project receives. I welcome collaborations and am available for contact via Gmail or Medium.
 
 ## License
 
