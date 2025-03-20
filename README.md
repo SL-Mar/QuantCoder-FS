@@ -29,9 +29,9 @@ To launch the interactive mode of **QuantCLI**, follow these steps:
    ```bash
    quantcli interactive
 
-### Strategies 
+### Articles and Strategies 
 
-A folder in this repository contains trading strategies generated using the QuantCoder tool. These strategies may have been refined manually or enhanced using other LLM-based methods. Please note that the author assumes no responsibility for the performance, accuracy, or outcomes resulting from the use of these strategies. Traders are strongly advised to exercise due diligence, conduct thorough research, and independently validate any strategy before applying it in live trading or investment activities. Quantitative finance articles studied using QuantCoder are stored in the 'Downloads' folder. These articles may be featured in a dedicated article on Medium, providing further insights and analysis.
+The folder 'Strategies and publications' contains articles of interest and trading strategies generated using the QuantCoder tool. These strategies may have been refined manually or enhanced using other LLM-based methods. Please note that the author assumes no responsibility for the performance, accuracy, or outcomes resulting from the use of these strategies. Traders are strongly advised to exercise due diligence, conduct thorough research, and independently validate any strategy before applying it in live trading or investment activities. Quantitative finance articles studied using QuantCoder are stored in the 'Downloads' folder. These articles may be featured in a dedicated article on Medium, providing further insights and analysis.
 
 ## Full-stack application : QuantCoder_FS 
 
