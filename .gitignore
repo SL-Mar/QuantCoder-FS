@@ -1,1 +1,17 @@
+# Python virtual environments
+.venv-legacy/
+venv/
+
+# Bytecode files
+__pycache__/
+*.pyc
+
+# Environment variables
 .env
+
+# Logs and output
+*.log
+output.*
+
+# Packaging metadata
+*.egg-info/

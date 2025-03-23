@@ -1,5 +1,5 @@
+LICENSE
 README.md
-pyproject.toml
 setup.py
 quantcli/__init__.py
 quantcli/cli.py

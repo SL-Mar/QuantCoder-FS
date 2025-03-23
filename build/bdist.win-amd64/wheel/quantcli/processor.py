@@ -212,7 +212,7 @@ class KeywordAnalyzer:
 class OpenAIHandler:
     """Handles interactions with the OpenAI API."""
 
-    def __init__(self, model: str = "gpt-4o-2024-11-20"):
+    def __init__(self, model: str = "chatgpt-4o-latest"):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.model = model
 
@@ -570,7 +570,7 @@ class ArticleProcessor:
         self.heading_detector = HeadingDetector()
         self.section_splitter = SectionSplitter()
         self.keyword_analyzer = KeywordAnalyzer()
-        self.openai_handler = OpenAIHandler(model="gpt-4o-2024-11-20")  # Specify the model here
+        self.openai_handler = OpenAIHandler(model="chatgpt-4o-latest")  # Specify the model here
         self.code_validator = CodeValidator()
         self.code_refiner = CodeRefiner(self.openai_handler)
         self.gui = GUI()
