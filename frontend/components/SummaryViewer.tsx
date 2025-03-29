@@ -1,78 +1,55 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import { Summary } from '../types/summary';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react'
+import { useRouter } from 'next/router'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faFloppyDisk,
-  faMagic,
   faCopy,
   faCheckCircle,
-} from '@fortawesome/free-solid-svg-icons';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+  faMagic,
+} from '@fortawesome/free-solid-svg-icons'
+import MarkdownRenderer from './MarkdownRenderer'
+import { useSummaryStore } from '../lib/useSummaryStore'
 
 interface SummaryViewerProps {
-  summary: Summary | null;
-  extractSummary: () => void;
-  saveSummary: () => void;
-  pdfFile: File | null;
-  isLoading: boolean;
+  extractSummary: () => void
+  saveSummary: () => void
+  isLoading: boolean
 }
 
 export default function SummaryViewer({
-  summary,
   extractSummary,
   saveSummary,
-  pdfFile,
   isLoading,
 }: SummaryViewerProps) {
-  const [copied, setCopied] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const router = useRouter()
+
+  const summary = useSummaryStore((state) => state.summary)
+  const pdfFile = useSummaryStore((state) => state.pdfFile)
+
+  const [copied, setCopied] = useState(false)
+  const [saved, setSaved] = useState(false)
 
   const handleCopy = () => {
     if (summary) {
-      navigator.clipboard.writeText(summary.summary);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+      navigator.clipboard.writeText(summary.summary)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
     }
-  };
+  }
 
   const handleSave = () => {
-    saveSummary();
-    setSaved(true);
-    setTimeout(() => setSaved(false), 1500);
-  };
+    saveSummary()
+    setSaved(true)
+    setTimeout(() => setSaved(false), 1500)
+  }
 
-  // Keep for fallback or testing
-  const renderWithBoldSections = (text: string) => {
-    const lines = text.split('\n');
-    const sectionTitlePattern = /^([A-Z][A-Za-z0-9\s]{2,50})\s*$/;
-
-    return lines.map((line, idx) => {
-      if (
-        sectionTitlePattern.test(line.trim()) &&
-        idx < lines.length - 1 &&
-        lines[idx + 1].match(/^[-=]{3,}$/)
-      ) {
-        return (
-          <p
-            key={idx}
-            className="font-bold text-indigo-300 mt-6 mb-2 text-base tracking-wide uppercase"
-          >
-            {line.trim()}
-          </p>
-        );
-      } else if (!lines[idx - 1]?.match(/^[-=]{3,}$/)) {
-        return (
-          <p key={idx} className="mb-2 leading-relaxed">
-            {line}
-          </p>
-        );
-      }
-      return null;
-    });
-  };
+  const handleCode = () => {
+    if (summary) {
+      router.push('/chat?source=summary')
+    }
+  }
 
   return (
     <div className="w-full h-full bg-gray-800 rounded-xl overflow-hidden flex flex-col gap-4">
@@ -83,7 +60,7 @@ export default function SummaryViewer({
             <h3 className="text-sm font-semibold text-indigo-400 break-words">
               📄 {summary.filename}
             </h3>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <button
                 onClick={handleSave}
                 disabled={isLoading}
@@ -104,6 +81,14 @@ export default function SummaryViewer({
                 <FontAwesomeIcon icon={faCopy} />
                 <span>{copied ? 'Copied!' : 'Copy'}</span>
               </button>
+
+              <button
+                onClick={handleCode}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded transition"
+              >
+                <FontAwesomeIcon icon={faMagic} />
+                <span>Code</span>
+              </button>
             </div>
           </>
         ) : (
@@ -117,35 +102,10 @@ export default function SummaryViewer({
       <div className="flex-grow overflow-auto px-4 pb-4">
         {summary ? (
           <div className="bg-gray-900 text-gray-100 rounded-md px-6 py-4 text-[0.95rem] font-serif overflow-auto h-full shadow-inner">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              components={{
-                h1: ({ node, ...props }) => (
-                  <h1 className="text-2xl text-indigo-400 font-bold mt-4 mb-2" {...props} />
-                ),
-                h2: ({ node, ...props }) => (
-                  <h2 className="text-xl text-indigo-300 font-semibold mt-3 mb-2" {...props} />
-                ),
-                h3: ({ node, ...props }) => (
-                  <h3 className="text-lg text-indigo-200 font-medium mt-2 mb-1" {...props} />
-                ),
-                p: ({ node, ...props }) => (
-                  <p className="text-gray-100 leading-relaxed mb-3" {...props} />
-                ),
-                ul: ({ node, ...props }) => (
-                  <ul className="list-disc list-inside mb-4 pl-4" {...props} />
-                ),
-                li: ({ node, ...props }) => (
-                  <li className="mb-1" {...props} />
-                ),
-              }}
-            >
-              {summary.summary}
-            </ReactMarkdown>
+            <MarkdownRenderer content={summary.summary} />
           </div>
         ) : (
-          pdfFile &&
-          !summary && (
+          pdfFile && (
             <div className="text-center text-gray-500 flex-grow flex items-center justify-center">
               Select extract to generate summary
             </div>
@@ -161,5 +121,6 @@ export default function SummaryViewer({
         </div>
       )}
     </div>
-  );
+  )
 }
+

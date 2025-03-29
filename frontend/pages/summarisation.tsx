@@ -1,106 +1,97 @@
-import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useAuth } from '../lib/useAuth';
-import SummaryViewer from '../components/SummaryViewer';
-import SavedSummariesList from '../components/SavedSummariesList';
-import { Summary } from '../types/summary';
-import { api } from '../lib/api';
+import dynamic from 'next/dynamic'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useAuth } from '../lib/useAuth'
+import SummaryViewer from '../components/SummaryViewer'
+import SavedSummariesList from '../components/SavedSummariesList'
+import { api } from '../lib/api'
+import { useSummaryStore } from '../lib/useSummaryStore'
 
-const PDFViewer = dynamic(() => import('../components/PDFViewer'), { ssr: false });
+const PDFViewer = dynamic(() => import('../components/PDFViewer'), { ssr: false })
 
 export default function SummariesPage() {
-  const { user, loading } = useAuth();
-  const router = useRouter();
+  const { user, loading } = useAuth()
+  const router = useRouter()
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [summary, setSummary] = useState<Summary | null>(null);
-  const [savedSummaries, setSavedSummaries] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { pdfFile, summary, setPdfFile, setSummary } = useSummaryStore()
+  const [savedSummaries, setSavedSummaries] = useState<string[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!loading && user === null) {
-      router.push('/login?next=/summarisation');
+      router.push('/login?next=/summarisation')
     }
-  }, [user, loading]);
+  }, [user, loading])
 
   useEffect(() => {
     if (!loading && user) {
-      fetchSummaries();
+      fetchSummaries()
     }
-  }, [loading, user]);
+  }, [loading, user])
 
   const fetchSummaries = async () => {
     try {
-      const data = await api.listSummaries();
-      setSavedSummaries(data.summaries);
+      const data = await api.listSummaries()
+      setSavedSummaries(data.summaries)
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message)
     }
-  };
-
-  if (loading) {
-    return <div className="text-white p-6">Checking login status…</div>;
-  }
-
-  if (!user) {
-    return <div className="text-white p-6">Redirecting to login…</div>;
   }
 
   const handleExtract = async () => {
-    if (!selectedFile) return;
-    setIsLoading(true);
-    setError(null);
+    if (!pdfFile) return
+    setIsLoading(true)
+    setError(null)
     try {
-      const data = await api.extractSummary(selectedFile);
-      setSummary({ filename: selectedFile.name, summary: data.summary });
+      const data = await api.extractSummary(pdfFile)
+      setSummary({ filename: pdfFile.name, summary: data.summary })
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleSave = async () => {
-    if (!summary) return;
-    setIsLoading(true);
-    setError(null);
+    if (!summary) return
+    setIsLoading(true)
+    setError(null)
     try {
-      await api.saveSummary(summary);
-      fetchSummaries();
+      await api.saveSummary(summary)
+      fetchSummaries()
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleLoad = async (filename: string) => {
-    setIsLoading(true);
-    setError(null);
+    setIsLoading(true)
+    setError(null)
     try {
-      const data = await api.loadSummary(filename);
-      setSummary({ filename, summary: data.content });
+      const data = await api.loadSummary(filename)
+      setSummary({ filename, summary: data.content })
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleDelete = async (filename: string) => {
-    setIsLoading(true);
-    setError(null);
+    setIsLoading(true)
+    setError(null)
     try {
-      await api.deleteSummary(filename);
-      fetchSummaries();
+      await api.deleteSummary(filename)
+      fetchSummaries()
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <div className="flex w-full h-screen gap-6 bg-[#0f172a] text-white">
@@ -118,8 +109,8 @@ export default function SummariesPage() {
         {/* PDF Viewer */}
         <section className="bg-gray-800 rounded-xl shadow-lg overflow-auto h-full p-4">
           <PDFViewer
-            selectedFile={selectedFile}
-            onFileSelect={setSelectedFile}
+            selectedFile={pdfFile}
+            onFileSelect={setPdfFile}
             onExtractSummary={handleExtract}
             isLoading={isLoading}
           />
@@ -128,10 +119,8 @@ export default function SummariesPage() {
         {/* Summary Viewer */}
         <section className="bg-gray-800 rounded-xl shadow-lg overflow-auto h-full p-4 flex flex-col">
           <SummaryViewer
-            summary={summary}
             extractSummary={handleExtract}
             saveSummary={handleSave}
-            pdfFile={selectedFile}
             isLoading={isLoading}
           />
           {error && (
@@ -142,5 +131,5 @@ export default function SummariesPage() {
         </section>
       </main>
     </div>
-  );
+  )
 }
