@@ -1,8 +1,0 @@
-Click>=8.0
-requests
-pdfplumber
-spacy>=3.0
-openai
-python-dotenv
-pygments
-InquirerPy
